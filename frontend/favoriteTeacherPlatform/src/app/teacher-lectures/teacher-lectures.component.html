@@ -1,0 +1,170 @@
+<app-teacher-navbar></app-teacher-navbar>
+
+<div>
+  <div #meet></div>
+</div>
+
+<div class="container-fluid bg-light mt-3 p-3">
+  <div class="row">
+    <h5>Lectures in next 3 days</h5>
+  </div>
+  <div class="row">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Subject</th>
+          <th scope="col">Student</th>
+          <th scope="col">Scheduled at</th>
+          <th scope="col">Duration</th>
+          <th scope="col">Avg student grade</th>
+          <th scope="col">Student Comment</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lecture of upcomingLectures">
+          <td>{{ lecture.subject.subject }}</td>
+          <td>
+            {{ lecture.student.firstname }} {{ lecture.student.lastname }}
+          </td>
+          <td>
+            {{ lecture.scheduledAt | date : "short" }}
+          </td>
+          <td>{{ lecture.duration }} minutes</td>
+          <td>Dodati ocenu</td>
+          <td>{{ lecture.studentComment }}</td>
+          <td>
+            <ng-container
+              *ngIf="
+                isScheduledWithin30Minutes(lecture.scheduledAt);
+                else notWithin30mins
+              "
+            >
+              <button
+                class="btn btn-primary"
+                (click)="openJitsiMeetInNewTab($event, lecture._id)"
+              >
+                Join
+              </button>
+            </ng-container>
+            <ng-template #notWithin30mins>
+              <span
+                placement="top"
+                ngbTooltip="You can join the session 30 minutes before"
+              >
+                <button
+                  disabled
+                  class="btn btn-primary"
+                  (click)="openJitsiMeetInNewTab($event, lecture._id)"
+                >
+                  Join
+                </button>
+              </span>
+            </ng-template>
+            <ng-container
+              *ngIf="!isWithin4Hours(lecture.scheduledAt); else notWithin4Hours"
+            >
+              <button
+                style="margin-left: 5px"
+                class="btn btn-danger"
+                (click)="handleLectureCancelation(lecture._id)"
+              >
+                Cancel
+              </button>
+            </ng-container>
+            <ng-template #notWithin4Hours>
+              <span
+                placement="top"
+                ngbTooltip="You cannot cancel lecture 4h before start"
+              >
+                <button
+                  disabled
+                  style="margin-left: 5px"
+                  class="btn btn-danger"
+                  (click)="handleLectureCancelation(lecture._id)"
+                >
+                  Cancel
+                </button>
+              </span>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div>
+        <label for="pageSizeSelect">Lectures to display: &nbsp;</label>
+        <select
+          id="pageSizeSelect"
+          [(ngModel)]="pageSize"
+          name="pageSize"
+          (ngModelChange)="onPageSizeChange()"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light mt-3 p-3">
+  <div class="row">
+    <h5>Lectures requests</h5>
+  </div>
+  <div class="row">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Subject</th>
+          <th scope="col">Student</th>
+          <th scope="col">Scheduled at</th>
+          <th scope="col">Duration</th>
+          <th scope="col">Student Comment</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lecture of lectureRequests">
+          <td>{{ lecture.subject.subject }}</td>
+          <td>
+            {{ lecture.student.firstname }} {{ lecture.student.lastname }}
+          </td>
+          <td>
+            {{ lecture.scheduledAt | date : "short" }}
+          </td>
+          <td>{{ lecture.duration }} minutes</td>
+          <td>{{ lecture.studentComment }}</td>
+          <td>
+            <button
+              class="btn btn-success"
+              (click)="handleAcceptLecture(lecture._id)"
+            >
+              Accept
+            </button>
+            <button
+              style="margin-left: 5px"
+              class="btn btn-danger"
+              (click)="handleRejectLecture(lecture._id)"
+            >
+              Reject
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div class="container-fluid bg-light mt-3 p-3">
+  <div class="row">
+    <h5>Calendar</h5>
+  </div>
+</div>
+
+<div class="container-fluid bg-light mt-3 p-3">
+  <div class="row">
+    <h5>My availability</h5>
+  </div>
+</div> -->

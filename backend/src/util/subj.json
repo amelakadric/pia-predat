@@ -1,0 +1,19 @@
+[
+  { "subject": "Mathematics", "isChecked": false },
+  { "subject": "Physics", "isChecked": false },
+  { "subject": "Chemistry", "isChecked": false },
+  { "subject": "Computer Science", "isChecked": false },
+  { "subject": "Programming", "isChecked": false },
+  { "subject": "Serbian Language and Literature", "isChecked": false },
+  { "subject": "English Language", "isChecked": false },
+  { "subject": "German Language", "isChecked": false },
+  { "subject": "Italian Language", "isChecked": false },
+  { "subject": "French Language", "isChecked": false },
+  { "subject": "Spanish Language", "isChecked": false },
+  { "subject": "Latin Language", "isChecked": false },
+  { "subject": "Biology", "isChecked": false },
+  { "subject": "History", "isChecked": false },
+  { "subject": "Geography", "isChecked": false },
+  { "subject": "Environment", "isChecked": false },
+  { "subject": "Something else", "isChecked": false }
+]

@@ -1,0 +1,68 @@
+<app-teacher-navbar></app-teacher-navbar>
+
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-3 p-2">
+      <div class="card" style="width: 18rem">
+        <img
+          class="card-img-top small-image"
+          [src]="student?.profilePicture"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ student?.firstname }}
+            {{ student?.lastname }}
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Address: {{ student?.address }}</li>
+          <li class="list-group-item">Phone: {{ student?.phoneNumber }}</li>
+          <li class="list-group-item">Email: {{ student?.email }}</li>
+          <li class="list-group-item">Grade: {{ student?.year }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-9">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Scheduled At</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Comment</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let subject of lecturesBySubject">
+            <ng-container *ngFor="let lecture of subject.lectures">
+              <tr>
+                <td
+                  *ngIf="lecture === subject.lectures[0]"
+                  [attr.rowSpan]="subject.lectures.length"
+                >
+                  {{ subject.subjectName }}
+                </td>
+                <td>{{ lecture.scheduledAt | date : "short" }}</td>
+                <td>{{ lecture.studentRating }}</td>
+                <td>{{ lecture.studentRateComment }}</td>
+                <td>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    *ngIf="
+                      !lecture.studentRating && !lecture.studentRateComment
+                    "
+                    (click)="handleRateStudent(lecture._id)"
+                  >
+                    Leave feedback
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

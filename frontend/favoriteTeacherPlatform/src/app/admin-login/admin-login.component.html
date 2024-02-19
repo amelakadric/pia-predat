@@ -1,0 +1,30 @@
+<div class="container mt-5 col-sm-3">
+  <h2>Admin login</h2>
+  <form>
+    <div class="mb-3">
+      <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+      <label for="username" class="form-label">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        id="username"
+        [(ngModel)]="user.username"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        id="password"
+        [(ngModel)]="user.password"
+      />
+    </div>
+    <button type="button" class="btn btn-primary" (click)="login()">
+      Login
+    </button>
+  </form>
+</div>

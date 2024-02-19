@@ -1,0 +1,138 @@
+<app-student-navbar></app-student-navbar>
+<div>
+  <div #meet></div>
+</div>
+
+<h3>Upcoming Lectures</h3>
+<div>
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Subject</th>
+        <th scope="col">Professor</th>
+        <th scope="col">Scheduled at</th>
+        <th scope="col">Duration</th>
+        <th scope="col">My Comment</th>
+        <th scope="col">Prof Comment</th>
+        <th scope="col">Completed</th>
+        <th scope="col">Accepted by professor</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let lecture of upcomingLectures">
+        <td>{{ lecture.subject.subject }}</td>
+        <td>
+          {{ lecture.professor.firstname }} {{ lecture.professor.lastname }}
+        </td>
+        <td>
+          {{ lecture.scheduledAt | date : "short" }}
+        </td>
+        <td>{{ lecture.duration }} minutes</td>
+        <td>{{ lecture.studentComment }}</td>
+        <td>{{ lecture.professorComment }}</td>
+        <td>
+          <ng-container *ngIf="lecture.completed; else notCompleted">
+            <p class="text-success">Completed</p>
+          </ng-container>
+          <ng-template #notCompleted>
+            <p class="text-danger">&nbsp;</p>
+          </ng-template>
+        </td>
+        <td>
+          <ng-container
+            *ngIf="lecture.acceptedByProfessor; else acceptedByProfessor"
+          >
+            <p class="text-success">Yes</p>
+          </ng-container>
+          <ng-template #acceptedByProfessor>
+            <p class="text-danger">Not yet</p>
+          </ng-template>
+        </td>
+        <td>
+          <ng-container
+            *ngIf="
+              isScheduledWithin30Minutes(lecture.scheduledAt) &&
+                lecture.acceptedByProfessor;
+              else notWithin30mins
+            "
+          >
+            <button
+              class="btn btn-primary"
+              (click)="initializeJitsiMeet(lecture._id)"
+            >
+              Join class
+            </button>
+          </ng-container>
+          <ng-template #notWithin30mins>
+            <span
+              placement="top"
+              ngbTooltip="You can join the session 30 minutes before"
+            >
+              <button
+                disabled
+                class="btn btn-primary"
+                (click)="initializeJitsiMeet(lecture._id)"
+              >
+                Join class
+              </button>
+            </span>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<hr />
+<h3>Past Lectures</h3>
+<div>
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Subject</th>
+        <th scope="col">Professor</th>
+        <th scope="col">Scheduled at</th>
+        <th scope="col">Duration</th>
+        <th scope="col">My Comment</th>
+        <th scope="col">Prof Comment</th>
+        <th scope="col">Rating</th>
+        <th scope="col">Rating Comment</th>
+        <th scope="col">Completed</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let lecture of pastLectures">
+        <td>{{ lecture.subject.subject }}</td>
+        <td>
+          {{ lecture.professor.firstname }} {{ lecture.professor.lastname }}
+        </td>
+        <td>
+          {{ lecture.scheduledAt | date : "short" }}
+        </td>
+        <td>{{ lecture.duration }} minutes</td>
+        <td>{{ lecture.studentComment }}</td>
+        <td>{{ lecture.professorComment }}</td>
+        <td>{{ lecture.professorRating }}</td>
+        <td>{{ lecture.professorRateComment }}</td>
+        <td>
+          <ng-container *ngIf="lecture.completed; else notCompleted">
+            <p class="text-success">Completed</p>
+          </ng-container>
+          <ng-template #notCompleted>
+            <p class="text-danger">&nbsp;</p>
+          </ng-template>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary"
+            *ngIf="lecture.completed && !lecture.professorRating"
+            (click)="handleRateLecture(lecture._id)"
+          >
+            Leave feedback
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

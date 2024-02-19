@@ -1,0 +1,52 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container mt-5 text-center">
+  <div *ngIf="students">
+    <h2 class="text-center">Student List</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <!-- <th>Profile Picture</th> -->
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Adress</th>
+          <th>Phone Number</th>
+          <th>School Type</th>
+          <th>Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students">
+          <!-- <img
+            alt=""
+            src="../../../../../../favorite-teacher-platform/backend/dist/uploads/defPic.png"
+          />
+          <td>
+            <img
+              [src]="student.profilePicture"
+              alt=""
+              class="img-fluid"
+              style="max-width: 50px"
+            />
+          </td> -->
+          <td>{{ student.firstname }}</td>
+          <td>{{ student.lastname }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.gender }}</td>
+          <td>{{ student.address }}</td>
+          <td>{{ student.phoneNumber }}</td>
+          <td>{{ student.schoolType }}</td>
+          <td>
+            {{
+              student.schoolType == "highschool"
+                ? student.year - 8
+                : student.year
+            }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

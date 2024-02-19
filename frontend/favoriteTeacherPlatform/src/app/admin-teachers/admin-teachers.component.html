@@ -1,0 +1,238 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container mt-5 text-center">
+  <div class="text-center">
+    <div class="">
+      <div *ngIf="teachers">
+        <h2>Teacher List</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+              <th>Username</th>
+
+              <th>Gender</th>
+              <th>Adress</th>
+              <th>Phone Number</th>
+              <th>CV</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let teacher of teachers">
+              <td>{{ teacher.firstname }}</td>
+              <td>{{ teacher.lastname }}</td>
+              <td>{{ teacher.email }}</td>
+              <td>{{ teacher.username }}</td>
+              <td>{{ teacher.gender }}</td>
+              <td>{{ teacher.address }}</td>
+              <td>{{ teacher.phoneNumber }}</td>
+              <td>
+                <button
+                  class="btn btn-secondary"
+                  (click)="viewCV(teacher.cv)"
+                  [disabled]="teacher.cv == ''"
+                >
+                  View CV
+                </button>
+              </td>
+
+              <td>
+                <button
+                  class="btn btn-primary"
+                  (click)="selectTeacher(teacher)"
+                >
+                  Edit teacher
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="col-sm-7 d-flex" *ngIf="showUpdate">
+      <div class="col-sm-4 m-5">
+        <h2>Update selected teacher</h2>
+        <div class="mb-3">
+          <label for="newFirstname" class="form-label">Firstname</label>
+          <input
+            type="text"
+            class="form-control"
+            name="newFirstname"
+            id="newFirstname"
+            [(ngModel)]="newUser.firstname"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="newLastname" class="form-label">Lastname</label>
+          <input
+            type="text"
+            class="form-control"
+            name="newLastname"
+            id="newLastname"
+            [(ngModel)]="newUser.lastname"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="newEmail" class="form-label">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="newEmail"
+            id="newEmail"
+            [(ngModel)]="newUser.email"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="newUsername" class="form-label">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            name="newUsername"
+            id="newUsername"
+            [(ngModel)]="newUser.username"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="newgender" class="form-label">Gender</label>
+          <select
+            class="form-select"
+            name="newgender"
+            id="newgender"
+            [(ngModel)]="newUser.gender"
+          >
+            <option value="male">male</option>
+            <option value="female">female</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="newphoneNumber" class="form-label">Phone number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="newphoneNumber"
+            id="newphoneNumber"
+            [(ngModel)]="newUser.phoneNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="newAdress" class="form-label">Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="newAdress"
+            id="newAdress"
+            [(ngModel)]="newUser.address"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="profilePicture" class="form-label">Profile picture</label>
+          <input
+            type="file"
+            class="form-control"
+            id="profilePicture"
+            (change)="handleFileInput($event)"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="cv" class="form-label">CV (PDF)</label>
+          <input
+            type="file"
+            class="form-control"
+            id="cv"
+            name="cv"
+            accept=".pdf"
+            required
+            (change)="handleFileInputCV($event)"
+          />
+        </div>
+      </div>
+      <div class="ml-5 mt-5">
+        <div class="mb-3">
+          <label for="newSubjects" class="form-label">Subjects</label>
+          <div>
+            <span *ngFor="let s of allSubjects">
+              <input
+                type="checkbox"
+                class="btn-check"
+                id="btn-check-{{ s.subject }}-outlined"
+                [checked]="s.isChecked"
+                autocomplete="off"
+                [(ngModel)]="s.isChecked"
+              />
+              <label
+                class="btn btn-outline-secondary"
+                for="btn-check-{{ s.subject }}-outlined"
+              >
+                {{ s.subject }}
+              </label>
+            </span>
+          </div>
+        </div>
+
+        <div class="ml-5 mt-5">
+          <div class="mb-3">
+            <label for="newGrades" class="form-label">Grades</label>
+            <div>
+              Elementary School
+
+              <span *ngFor="let s of newESG">
+                <input
+                  type="checkbox"
+                  class="btn-check"
+                  id="btn-check-{{ s.num }}-outlined"
+                  [checked]="s.isChecked"
+                  autocomplete="off"
+                  [(ngModel)]="s.isChecked"
+                />
+                <label
+                  class="btn btn-outline-secondary"
+                  for="btn-check-{{ s.num }}-outlined"
+                >
+                  {{ s.num }}
+                </label>
+              </span>
+            </div>
+
+            <div>
+              High School
+
+              <span *ngFor="let e of newHSG">
+                <input
+                  type="checkbox"
+                  class="btn-check"
+                  id="btn-check-{{ e.num }}-high-outlined"
+                  [checked]="e.isChecked"
+                  autocomplete="off"
+                  [(ngModel)]="e.isChecked"
+                />
+                <label
+                  class="btn btn-outline-secondary"
+                  for="btn-check-{{ e.num }}-high-outlined"
+                >
+                  {{ e.num }}
+                </label>
+              </span>
+            </div>
+          </div>
+          <div class="">
+            <button class="btn btn-primary" (click)="updateTeacher()">
+              Update Teacher
+            </button>
+            <button class="m-3 btn btn-danger" (click)="deactivateTeacher()">
+              Deactivate Teacher
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

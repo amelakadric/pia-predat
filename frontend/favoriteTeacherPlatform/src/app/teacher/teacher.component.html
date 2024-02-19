@@ -1,0 +1,267 @@
+<app-teacher-navbar></app-teacher-navbar>
+<div class="d-flex justify-content-center">
+  <!-- <div class="container mt-5"> -->
+
+  <div class="col col-sm-5" *ngIf="!updateProfile">
+    <div class="mb-3 text-center">
+      <div>
+        <img src="{{ user.profilePicture }}" alt="" width="100px" />
+      </div>
+      <h2>Teacher</h2>
+      <ul class="list-group">
+        <li class="list-group-item">
+          Firstname
+          <h4>{{ user.firstname }}</h4>
+        </li>
+
+        <li class="list-group-item">
+          Lastname
+          <h4>{{ user.lastname }}</h4>
+        </li>
+
+        <li class="list-group-item">
+          Email
+          <h4>{{ user.email }}</h4>
+        </li>
+
+        <li class="list-group-item">
+          Username
+          <h4>{{ user.username }}</h4>
+        </li>
+
+        <li class="list-group-item">
+          Gender
+          <h4>{{ user.gender }}</h4>
+        </li>
+
+        <li class="list-group-item">
+          Phone number
+          <h4>{{ user.phoneNumber }}</h4>
+        </li>
+
+        <li class="list-group-item">
+          Address
+          <h4>{{ user.address }}</h4>
+        </li>
+        <li class="list-group-item">
+          CV
+          <button class="btn btn-secondary" (click)="viewCV(user.cv)">
+            View CV
+          </button>
+        </li>
+        <li class="list-group-item">
+          Subjects
+
+          <div>
+            <span
+              class="btn btn-outline-secondary"
+              *ngFor="let s of user.subjects"
+              >{{ s }}</span
+            >
+          </div>
+        </li>
+        <li class="list-group-item">
+          Teaching grades
+          <div *ngIf="elementaryGrades.length > 0">
+            Elementary school:
+            <span
+              class="btn btn-outline-secondary"
+              *ngFor="let a of elementaryGrades"
+              >{{ a }}</span
+            >
+          </div>
+          <div *ngIf="highschoolGrades.length > 0">
+            High school:
+            <span
+              class="btn btn-outline-secondary"
+              *ngFor="let a of highschoolGrades"
+              >{{ a }}</span
+            >
+          </div>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-primary" (click)="openUpdate()">
+      Update profile
+    </button>
+  </div>
+
+  <div class="d-flex justify-content-center" *ngIf="updateProfile">
+    <div class="col-sm-5 m-5">
+      <h2>Update Profile</h2>
+      <div class="mb-3">
+        <label for="newFirstname" class="form-label">Firstname</label>
+        <input
+          type="text"
+          class="form-control"
+          name="newFirstname"
+          id="newFirstname"
+          [(ngModel)]="newUser.firstname"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="newLastname" class="form-label">Lastname</label>
+        <input
+          type="text"
+          class="form-control"
+          name="newLastname"
+          id="newLastname"
+          [(ngModel)]="newUser.lastname"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="newEmail" class="form-label">Email</label>
+        <input
+          type="text"
+          class="form-control"
+          name="newEmail"
+          id="newEmail"
+          [(ngModel)]="newUser.email"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="newUsername" class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          name="newUsername"
+          id="newUsername"
+          [(ngModel)]="newUser.username"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="newgender" class="form-label">Gender</label>
+        <select
+          class="form-select"
+          name="newgender"
+          id="newgender"
+          [(ngModel)]="newUser.gender"
+        >
+          <option value="male">male</option>
+          <option value="female">female</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="newphoneNumber" class="form-label">Phone number</label>
+        <input
+          type="text"
+          class="form-control"
+          name="newphoneNumber"
+          id="newphoneNumber"
+          [(ngModel)]="newUser.phoneNumber"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="newAdress" class="form-label">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          name="newAdress"
+          id="newAdress"
+          [(ngModel)]="newUser.address"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="profilePicture" class="form-label">Profile picture</label>
+        <input
+          type="file"
+          class="form-control"
+          id="profilePicture"
+          (change)="handleFileInput($event)"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="cv" class="form-label">CV (PDF)</label>
+        <input
+          type="file"
+          class="form-control"
+          id="cv"
+          name="cv"
+          accept=".pdf"
+          required
+          (change)="handleFileInputCV($event)"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="newSubjects" class="form-label">Subjects</label>
+        <div>
+          <span *ngFor="let s of allSubjects">
+            <input
+              type="checkbox"
+              class="btn-check"
+              id="btn-check-{{ s.subject }}-outlined"
+              [checked]="s.isChecked"
+              autocomplete="off"
+              [(ngModel)]="s.isChecked"
+            />
+            <label
+              class="btn btn-outline-secondary"
+              for="btn-check-{{ s.subject }}-outlined"
+            >
+              {{ s.subject }}
+            </label>
+          </span>
+        </div>
+      </div>
+
+      <div class="ml-5 mt-5">
+        <div class="mb-3">
+          <label for="newGrades" class="form-label">Grades</label>
+          <div>
+            Elementary School
+
+            <span *ngFor="let s of newESG">
+              <input
+                type="checkbox"
+                class="btn-check"
+                id="btn-check-{{ s.num }}-outlined"
+                [checked]="s.isChecked"
+                autocomplete="off"
+                [(ngModel)]="s.isChecked"
+              />
+              <label
+                class="btn btn-outline-secondary"
+                for="btn-check-{{ s.num }}-outlined"
+              >
+                {{ s.num }}
+              </label>
+            </span>
+          </div>
+
+          <div>
+            High School
+
+            <span *ngFor="let e of newHSG">
+              <input
+                type="checkbox"
+                class="btn-check"
+                id="btn-check-{{ e.num }}-high-outlined"
+                [checked]="e.isChecked"
+                autocomplete="off"
+                [(ngModel)]="e.isChecked"
+              />
+              <label
+                class="btn btn-outline-secondary"
+                for="btn-check-{{ e.num }}-high-outlined"
+              >
+                {{ e.num }}
+              </label>
+            </span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" (click)="updateTeacher()">
+          Update Teacher
+        </button>
+        <button class="btn btn-secondary" (click)="abandon()">
+          Abandon changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

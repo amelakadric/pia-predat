@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h4 class="modal-title">Leave a feedback for student</h4>
+  <button
+    type="button"
+    class="btn-close"
+    (click)="activeModal.dismiss()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div>
+    <ngb-rating [(rate)]="studentRating" />
+    {{ studentRating }}
+  </div>
+  <hr />
+  <div>
+    <textarea
+      style="width: 100%"
+      id="textareaInput"
+      placeholder="Leave your comment on the student"
+      name="textareaInput"
+      [(ngModel)]="studentRateComment"
+      rows="4"
+    ></textarea>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="activeModal.dismiss()">
+    Cancel
+  </button>
+
+  <ng-container
+    *ngIf="studentRateComment && studentRating; else submitRatingButtonEnabled"
+  >
+    <button type="button" class="btn btn-success" (click)="submit()">
+      Submit
+    </button>
+  </ng-container>
+  <ng-template #submitRatingButtonEnabled>
+    <button disabled type="button" class="btn btn-success">Submit</button>
+  </ng-template>
+</div>

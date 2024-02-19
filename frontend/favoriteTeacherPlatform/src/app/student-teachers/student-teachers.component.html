@@ -1,0 +1,63 @@
+<app-student-navbar></app-student-navbar>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Teachers teaching {{ user.year }}th grade</h3>
+      <div class="btn-group mb-3" role="group" aria-label="Sort and Search">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="sortByFirstname()"
+        >
+          Sort by Firstname
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="sortByLastname()"
+        >
+          Sort by Lastname
+        </button>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by Firstname"
+          [(ngModel)]="searchFirstname"
+        />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by Lastname"
+          [(ngModel)]="searchLastname"
+        />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by Subject"
+          [(ngModel)]="searchSubject"
+        />
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Subjects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let teacher of filteredTeachers">
+            <td>
+              <a href="/student-teachers/{{ teacher.username }}"
+                >{{ teacher.firstname }} {{ teacher.lastname }}</a
+              >
+            </td>
+            <td>{{ teacher.rating ? teacher.rating.toFixed(2) : 0 }}</td>
+            <td>{{ teacher.subjects.join(", ") }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

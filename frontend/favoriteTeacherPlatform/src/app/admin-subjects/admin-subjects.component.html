@@ -1,0 +1,48 @@
+<app-admin-navbar></app-admin-navbar>
+<div class="container mt-5">
+  <div class="row text-center">
+    <h2>Subject Requests</h2>
+    <p *ngIf="subjectRequests.length == 0">No subject requests</p>
+    <table class="table" *ngIf="subjectRequests.length > 0">
+      <thead>
+        <tr>
+          <th>Subject name</th>
+          <th>Teacher</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of subjectRequests">
+          <td>{{ u.subject }}</td>
+          <td>{{ u.teacherUsername }}</td>
+          <td>
+            <button class="btn btn-success" (click)="approve(u)">
+              Approve
+            </button>
+            <button class="btn btn-danger ms-2" (click)="reject(u.subject)">
+              Reject
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-6 text-center">
+      <h2>Add new subject</h2>
+      <div class="mb-3">
+        <label for="newSubject" class="form-label">Subject name</label>
+        <input
+          type="text"
+          class="form-control col-sm-3"
+          name="newSubject"
+          id="newSubject"
+          width="2rem"
+          [(ngModel)]="newSubject"
+        />
+      </div>
+      <button class="btn btn-primary" (click)="addNewSubject()">Add</button>
+    </div>
+  </div>
+</div>

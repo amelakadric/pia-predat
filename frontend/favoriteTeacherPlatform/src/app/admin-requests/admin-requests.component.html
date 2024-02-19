@@ -1,0 +1,55 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container mt-5 text-center">
+  <div class="text-center">
+    <div class="">
+      <div *ngIf="userRequests">
+        <h2>Teacher requests</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+              <th>Username</th>
+              <th>Gender</th>
+              <th>Adress</th>
+              <th>Phone Number</th>
+              <th>CV</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let teacher of userRequests">
+              <td>{{ teacher.firstname }}</td>
+              <td>{{ teacher.lastname }}</td>
+              <td>{{ teacher.email }}</td>
+              <td>{{ teacher.username }}</td>
+              <td>{{ teacher.gender }}</td>
+              <td>{{ teacher.address }}</td>
+              <td>{{ teacher.phoneNumber }}</td>
+              <td>
+                <button
+                  class="btn btn-secondary"
+                  (click)="viewCV(teacher.cv)"
+                  [disabled]="teacher.cv == ''"
+                >
+                  View CV
+                </button>
+              </td>
+
+              <td>
+                <button class="btn btn-success" (click)="approve(teacher)">
+                  Approve
+                </button>
+                <button class="btn btn-danger ms-2" (click)="reject(teacher)">
+                  Reject
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
